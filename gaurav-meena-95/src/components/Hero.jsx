@@ -18,11 +18,10 @@ export function Hero() {
 
         let index = 0
         const timer = setInterval(() => {
-            if (index <= fullText.length) {
-                setText(fullText.slice(0, index));
-                index++
-            } else {
-                clearInterval(timer)
+            setText(fullText.slice(0, index));
+            index++
+            if (index > fullText.length){
+                index = 0
             }
         }, 100)
         return () => clearInterval(timer);
@@ -78,10 +77,9 @@ export function Hero() {
                     {/* Left content */}
                     <motion.div
                         initial={{ opacity: 0, x: -50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="space-y-6"
-                    >
+                        animate={{ opacity: 2, x: 10 }}
+                        transition={{ duration: 1}}
+                        className="space-y-6">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -99,7 +97,7 @@ export function Hero() {
                             transition={{ delay: 0.4 }}
                             className="min-h-[80px]"
                         >
-                            <p className="text-gray-400 text-lg md:text-xl">
+                            <p className="text-neutral-400 text-lg md:text-xl">
                                 {text}
                                 <span className="inline-block w-0.5 h-6 bg-gradient-to-b from-[#00A3FF] to-[#A855F7] ml-1 animate-pulse"></span>
                             </p>
@@ -111,8 +109,8 @@ export function Hero() {
                             transition={{ delay: 0.6 }}
                             className="flex flex-wrap gap-4">
 
-                            <button className="bg-gradient-to-r from-[#00A3FF] to-[#A855F7] py-1 px-3  rounded-lg shadow-[0_4px_20px_#00A3FF33] bg-white p-6 rounded-lg  shadow-[0_4px_20px_#00A3FF33] hover:shadow-[0_0_25px_#00A3FF88] hover:opacity-95 transition"> <FontAwesomeIcon icon={faFileDownload} /> Download Resume</button>
-                            <button className="border-2 border-[#00A3FF] text-[#00A3FF] hover:bg-[#00A3FF]/10 transition-all duration-300  py-1 px-5 rounded-lg text-white"><FontAwesomeIcon icon={faRocket} /> View Projects</button>
+                            <button className="resume"> <FontAwesomeIcon icon={faFileDownload} /> Download Resume</button>
+                            <button className="project"><FontAwesomeIcon icon={faRocket} /> View Projects</button>
 
 
                         </motion.div>

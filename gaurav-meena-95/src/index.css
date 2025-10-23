@@ -1,4 +1,4 @@
-:root{
+:root {
   margin: 0;
   padding: 0;
 }
@@ -28,5 +28,12 @@
 
   h6 {
     @apply text-base font-medium text-gray-500;
+  }
+
+  .resume {
+    @apply bg-gradient-to-r from-[#00A3FF] to-[#A855F7] py-1 px-3 rounded-lg shadow-[0_4px_20px_#00A3FF33] transition-all duration-300 bg-white p-6 rounded-lg shadow-[0_4px_20px_#00A3FF33] hover:shadow-[0_0_25px_#00A3FF88] hover:opacity-95 transition;
+  }
+  .project{
+    @apply border-2 border-[#00A3FF] text-[#00A3FF] hover:bg-[#00A3FF]/10 transition-all duration-300  py-1 px-5 rounded-lg hover:text-white;
   }
 }
