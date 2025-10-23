@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRocket, faFileDownload } from "@fortawesome/free-solid-svg-icons";
+
+
 
 
 export function Hero() {
@@ -21,9 +25,9 @@ export function Hero() {
                 clearInterval(timer)
             }
         }, 100)
-        return ()=> clearInterval(timer);
+        return () => clearInterval(timer);
 
-    },[])
+    }, [])
 
 
     return (
@@ -37,7 +41,7 @@ export function Hero() {
             {/* random partical */}
             <div className="absolute inset-0">
                 {
-                    [...Array(100)].map((i) => {
+                    [...Array(100)].map((_, i) => {
                         const x1 = Math.random() * windowSize.width
                         const x2 = Math.random() * windowSize.height
                         const y1 = Math.random() * windowSize.width
@@ -101,31 +105,20 @@ export function Hero() {
                             </p>
                         </motion.div>
 
-                        {/* <motion.div
+                        <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.6 }}
-                            className="flex flex-wrap gap-4"
-                        >
-                            <Button
-                                className="bg-gradient-to-r from-[#00A3FF] to-[#A855F7] hover:opacity-90 transition-all duration-300 shadow-[0_0_20px_rgba(0,163,255,0.5)] hover:shadow-[0_0_30px_rgba(0,163,255,0.7)]"
-                                size="lg"
-                            >
-                                <Download className="mr-2 h-5 w-5" />
-                                Download Resume
-                            </Button>
-                            <Button
-                                variant="outline"
-                                size="lg"
-                                className="border-2 border-[#00A3FF] text-[#00A3FF] hover:bg-[#00A3FF]/10 transition-all duration-300"
-                            >
-                                <Rocket className="mr-2 h-5 w-5" />
-                                View Projects
-                            </Button>
-                        </motion.div> */}
+                            className="flex flex-wrap gap-4">
+
+                            <button className="bg-gradient-to-r from-[#00A3FF] to-[#A855F7] py-1 px-3  rounded-lg shadow-[0_4px_20px_#00A3FF33] bg-white p-6 rounded-lg  shadow-[0_4px_20px_#00A3FF33] hover:shadow-[0_0_25px_#00A3FF88] hover:opacity-95 transition"> <FontAwesomeIcon icon={faFileDownload} /> Download Resume</button>
+                            <button className="border-2 border-[#00A3FF] text-[#00A3FF] hover:bg-[#00A3FF]/10 transition-all duration-300  py-1 px-5 rounded-lg text-white"><FontAwesomeIcon icon={faRocket} /> View Projects</button>
+
+
+                        </motion.div>
                     </motion.div>
 
-                    {/* Right content - Developer illustration */}
+
                     <motion.div
                         initial={{ opacity: 0, x: 50 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -133,10 +126,7 @@ export function Hero() {
                         className="relative"
                     >
                         <div className="relative">
-                            {/* Glowing border effect */}
                             <div className="absolute -inset-1 bg-gradient-to-r from-[#00A3FF] to-[#A855F7] rounded-2xl blur opacity-30 animate-pulse"></div>
-
-                            {/* Image container */}
                             <div className="relative bg-[#161B22] rounded-2xl p-2 backdrop-blur-xl border border-white/10">
                                 <img
                                     src="https://images.unsplash.com/photo-1566915896913-549d796d2166?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZXZlbG9wZXIlMjBjb2RpbmclMjB3b3Jrc3BhY2V8ZW58MXx8fHwxNzYwODY2Nzk5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
