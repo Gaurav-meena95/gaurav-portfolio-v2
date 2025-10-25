@@ -42,8 +42,8 @@ export function Hero() {
                 {
                     [...Array(100)].map((_, i) => {
                         const x1 = Math.random() * windowSize.width
-                        const x2 = Math.random() * windowSize.height
-                        const y1 = Math.random() * windowSize.width
+                        const x2 = Math.random() * windowSize.width
+                        const y1 = Math.random() * windowSize.height
                         const y2 = Math.random() * windowSize.height
                         const randomScale = Math.random() * 0.5 + 0.5
                         const randomDuration = Math.random() * 10 + 10
