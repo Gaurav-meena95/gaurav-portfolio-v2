@@ -55,7 +55,7 @@ export function Projects() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl mb-4 bg-gradient-to-r from-[#00A3FF] to-[#A855F7] bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl mb-4 bg-linear-to-r from-[#00A3FF] to-[#A855F7] bg-clip-text text-transparent">
             Projects Showcase
           </h2>
         </motion.div>
@@ -71,12 +71,12 @@ export function Projects() {
               className="relative group"
             >
               {/* Glowing border on hover */}
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-[#00A3FF] to-[#A855F7] rounded-2xl opacity-0 group-hover:opacity-50 blur transition duration-500"></div>
+              <div className="absolute -inset-0.5 bg-linear-to-r from-[#00A3FF] to-[#A855F7] rounded-2xl opacity-0 group-hover:opacity-50 blur transition duration-500"></div>
 
               <div className="relative bg-[#161B22]/60 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden hover:border-white/20 transition-all duration-300 h-full flex flex-col">
                 {/* Project image */}
                 <div className="relative h-48 overflow-hidden">
-                  <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-20`}></div>
+                  <div className={`absolute inset-0 bg-linear-to-r ${project.gradient} opacity-20`}></div>
                   <img
                     src={project.image}
                     alt={project.title}
@@ -86,7 +86,7 @@ export function Projects() {
 
                 {/* Project content */}
                 <div className="p-6 flex-1 flex flex-col">
-                  <h3 className="text-xl mb-2 text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-[#00A3FF] group-hover:to-[#A855F7] group-hover:bg-clip-text transition-all duration-300">
+                  <h3 className="text-xl mb-2 text-white group-hover:text-transparent group-hover:bg-linear-to-r group-hover:from-[#00A3FF] group-hover:to-[#A855F7] group-hover:bg-clip-text transition-all duration-300">
                     {project.title}
                   </h3>
                   
@@ -113,7 +113,7 @@ export function Projects() {
                   {/* Action buttons */}
                   <div className="flex gap-3">
                         
-                    <button size="sm" className="flex-1 bg-gradient-to-r from-[#00A3FF] to-[#A855F7] hover:opacity-90 p-1 rounded-lg transition-all duration-300" > <FontAwesomeIcon className="mr-2 h-4 w-4" icon={faExternalLink}/> Live Demo</button>
+                    <button size="sm" className="flex-1 bg-linear-to-r from-[#00A3FF] to-[#A855F7] hover:opacity-90 p-1 rounded-lg transition-all duration-300" > <FontAwesomeIcon className="mr-2 h-4 w-4" icon={faExternalLink}/> Live Demo</button>
                     <FontAwesomeIcon size='xl' className='mt-1' icon={faGithub}/>
                   </div>
                 </div>
@@ -125,7 +125,7 @@ export function Projects() {
         <div className="text-center mt-12">
           <button
             onClick={() => setShowMore(!showMore)}
-            className="bg-gradient-to-r from-[#00A3FF] to-[#A855F7] px-6 py-2 rounded-lg text-white hover:opacity-90 transition-all duration-300"
+            className="bg-linear-to-r from-[#00A3FF] to-[#A855F7] px-6 py-2 rounded-lg text-white hover:opacity-90 transition-all duration-300"
           >
             {showMore ? 'Show Less' : 'Show More'}
           </button>

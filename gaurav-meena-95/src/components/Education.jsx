@@ -34,14 +34,14 @@ export function Education() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl mb-4 bg-gradient-to-r from-[#00A3FF] to-[#A855F7] bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl mb-4 bg-linear-to-r from-[#00A3FF] to-[#A855F7] bg-clip-text text-transparent">
             Education Timeline
           </h2>
         </motion.div>
 
         <div className="relative">
           {/* Vertical line */}
-          <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#00A3FF] via-[#A855F7] to-[#00A3FF]"></div>
+          <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-linear-to-b from-[#00A3FF] via-[#A855F7] to-[#00A3FF]"></div>
 
           <div className="space-y-12">
             {timeline.map((item, index) => (
@@ -55,16 +55,16 @@ export function Education() {
               >
                 {/* Timeline dot */}
                 <div className="absolute left-6 top-6 -translate-x-1/2">
-                  <div className="w-5 h-5 rounded-full bg-gradient-to-r from-[#00A3FF] to-[#A855F7] shadow-[0_0_20px_rgba(0,163,255,0.5)]"></div>
+                  <div className="w-5 h-5 rounded-full bg-linear-to-r from-[#00A3FF] to-[#A855F7] shadow-[0_0_20px_rgba(0,163,255,0.5)]"></div>
                 </div>
 
                 {/* Content card */}
                 <div className="relative group">
-                  <div className="absolute -inset-0.5 bg-gradient-to-r from-[#00A3FF] to-[#A855F7] rounded-2xl opacity-0 group-hover:opacity-30 blur transition duration-500"></div>
+                  <div className="absolute -inset-0.5 bg-linear-to-r from-[#00A3FF] to-[#A855F7] rounded-2xl opacity-0 group-hover:opacity-30 blur transition duration-500"></div>
                   
                   <div className="relative bg-[#161B22]/60 backdrop-blur-xl rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300">
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#00A3FF]/20 to-[#A855F7]/20 flex items-center justify-center flex-shrink-0 shadow-[0_0_15px_rgba(0,163,255,0.3)]">
+                      <div className="w-12 h-12 rounded-xl bg-linear-to-r from-[#00A3FF]/20 to-[#A855F7]/20 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(0,163,255,0.3)]">
                       <FontAwesomeIcon className="w-6 h-6 text-[#00A3FF]"  icon={faGraduationCap}/>
                       </div>
 

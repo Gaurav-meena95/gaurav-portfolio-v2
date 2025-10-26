@@ -50,7 +50,7 @@ export function Hero() {
                         return (
                             <motion.div
                                 key={i}
-                                className="absolute w-1 h-1 bg-gradient-to-r from-[#00A3FF] to-[#A855F7] rounded-full"
+                                className="absolute w-1 h-1 bg-linear-to-r from-[#00A3FF] to-[#A855F7] rounded-full"
                                 initial={{
                                     x: x1,
                                     y: y1,
@@ -87,7 +87,7 @@ export function Hero() {
                             className="inline-block"
                         >
                             <span className="text-xl md:text-2xl text-gray-300">
-                                Hey, I'm <span className="bg-gradient-to-r from-[#00A3FF] to-[#A855F7] bg-clip-text text-transparent">Gaurav Meena</span> 👋
+                                Hey, I'm <span className="bg-linear-to-r from-[#00A3FF] to-[#A855F7] bg-clip-text text-transparent">Gaurav Meena</span> 👋
                             </span>
                         </motion.div>
 
@@ -99,7 +99,7 @@ export function Hero() {
                         >
                             <p className="text-neutral-400 text-lg md:text-xl">
                                 {text}
-                                <span className="inline-block w-0.5 h-6 bg-gradient-to-b from-[#00A3FF] to-[#A855F7] ml-1 animate-pulse"></span>
+                                <span className="inline-block w-0.5 h-6 bg-linear-to-b from-[#00A3FF] to-[#A855F7] ml-1 animate-pulse"></span>
                             </p>
                         </motion.div>
 
@@ -124,7 +124,7 @@ export function Hero() {
                         className="relative"
                     >
                         <div className="relative">
-                            <div className="absolute -inset-1 bg-gradient-to-r from-[#00A3FF] to-[#A855F7] rounded-2xl blur opacity-30 animate-pulse"></div>
+                            <div className="absolute -inset-1 bg-linear-to-r from-[#00A3FF] to-[#A855F7] rounded-2xl blur opacity-30 animate-pulse"></div>
                             <div className="relative bg-[#161B22] rounded-2xl p-2 backdrop-blur-xl border border-white/10">
                                 <img
                                     src="https://images.unsplash.com/photo-1566915896913-549d796d2166?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZXZlbG9wZXIlMjBjb2RpbmclMjB3b3Jrc3BhY2V8ZW58MXx8fHwxNzYwODY2Nzk5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"

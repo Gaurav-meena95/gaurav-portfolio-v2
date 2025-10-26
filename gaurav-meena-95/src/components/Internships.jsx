@@ -59,12 +59,12 @@ export function Internships() {
               className="relative group"
             >
               {/* Glowing effect */}
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-[#00A3FF] to-[#A855F7] rounded-2xl opacity-0 group-hover:opacity-30 blur transition duration-500"></div>
+              <div className="absolute -inset-0.5 bg-linear-to-r from-[#00A3FF] to-[#A855F7] rounded-2xl opacity-0 group-hover:opacity-30 blur transition duration-500"></div>
 
               <div className="relative bg-[#161B22]/60 backdrop-blur-xl rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300 h-full">
                 {/* Icon */}
                 <div className="flex items-start justify-between mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#00A3FF]/20 to-[#A855F7]/20 flex items-center justify-center shadow-[0_0_20px_rgba(0,163,255,0.3)]">
+                  <div className="w-12 h-12 rounded-xl bg-linear-to-r from-[#00A3FF]/20 to-[#A855F7]/20 flex items-center justify-center shadow-[0_0_20px_rgba(0,163,255,0.3)]">
                   <FontAwesomeIcon className="w-6 h-6 text-[#00A3FF]" icon={exp.icon}/>
                   </div>
                   <button className="hover:bg-white/5"><FontAwesomeIcon className="h-4 w-4 text-gray-400" icon={faExternalLink}/></button>
