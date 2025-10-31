@@ -13,6 +13,7 @@ export function Projects() {
       tech: ['React', 'Tailwind', 'JavaScript'],
       image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80',
       gradient: 'from-blue-500 to-cyan-500',
+      link: 'https://wap-capstone-2-dihq.vercel.app/'
     },
     {
       title: 'Password Generator',
@@ -20,6 +21,7 @@ export function Projects() {
       tech: ['React', 'CSS'],
       image: 'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=800&q=80',
       gradient: 'from-purple-500 to-pink-500',
+      link: 'https://wap-capstone-2-dihq.vercel.app/'
     },
     {
       title: 'My Portfolio',
@@ -27,6 +29,7 @@ export function Projects() {
       tech: ['HTML', 'CSS', 'JavaScript'],
       image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&q=80',
       gradient: 'from-cyan-500 to-blue-500',
+      link: 'https://wap-capstone-2-dihq.vercel.app/'
     },
     {
       title: 'E-Commerce Store',
@@ -34,6 +37,7 @@ export function Projects() {
       tech: ['React', 'Node.js', 'MongoDB'],
       image: 'https://images.unsplash.com/photo-1515165562835-c4c4c0b7b43e?w=800&q=80',
       gradient: 'from-green-500 to-emerald-500',
+      link: 'https://wap-capstone-2-dihq.vercel.app/'
     },
     {
       title: 'Chat App',
@@ -41,12 +45,13 @@ export function Projects() {
       tech: ['React', 'Express', 'Socket.io'],
       image: 'https://images.unsplash.com/photo-1603791440384-56cd371ee9a7?w=800&q=80',
       gradient: 'from-orange-500 to-red-500',
+      link: 'https://wap-capstone-2-dihq.vercel.app/'
     }
   ];
 
   const visibleProjects = showMore ? projects : projects.slice(0,3);
   return (
-    <section className="py-20 px-6 relative overflow-hidden" id="projects">
+    <section  className="py-20 px-6 relative overflow-hidden" id="projects">
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -112,9 +117,8 @@ export function Projects() {
 
                   {/* Action buttons */}
                   <div className="flex gap-3">
-                        
-                    <button size="sm" className="flex-1 bg-linear-to-r from-[#00A3FF] to-[#A855F7] hover:opacity-90 p-1 rounded-lg transition-all duration-300" > <FontAwesomeIcon className="mr-2 h-4 w-4" icon={faExternalLink}/> Live Demo</button>
-                    <FontAwesomeIcon size='xl' className='mt-1' icon={faGithub}/>
+                    <a   size="sm" href={project.link} target="_blank" className="flex-1 bg-linear-to-r from-[#00A3FF] to-[#A855F7] hover:opacity-90 p-1 rounded-lg transition-all duration-300" > <FontAwesomeIcon className="mr-2 h-4 w-4" icon={faExternalLink}/> Live Demo</a  >
+                    <FontAwesomeIcon href="https://github.com/gaurav-meena-95" size='xl' className='mt-1' icon={faGithub}/>
                   </div>
                 </div>
               </div>

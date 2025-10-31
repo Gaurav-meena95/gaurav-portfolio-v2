@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { faGithub, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
-import { faBed, faCode, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faCode, faHeart } from '@fortawesome/free-solid-svg-icons';
 
 export function Footer() {
   const socialLinks = [

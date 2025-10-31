@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRocket, faFileDownload } from "@fortawesome/free-solid-svg-icons";
+import resumePdf from "../assets/Resume-Gaurav Meena.pdf";
 
 
 
@@ -95,7 +96,7 @@ export function Hero() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.4 }}
-                            className="min-h-[80px]"
+                            className="min-h-20"
                         >
                             <p className="text-neutral-400 text-lg md:text-xl">
                                 {text}
@@ -109,8 +110,14 @@ export function Hero() {
                             transition={{ delay: 0.6 }}
                             className="flex flex-wrap gap-4">
 
-                            <button className="resume"> <FontAwesomeIcon icon={faFileDownload} /> Download Resume</button>
-                            <button className="project"><FontAwesomeIcon icon={faRocket} /> View Projects</button>
+                            <a href={resumePdf} download="Gaurav-Meena-Resume.pdf" className="resume inline-flex items-center gap-2">
+                                <FontAwesomeIcon icon={faFileDownload} />
+                                Download Resume
+                            </a>
+                            <a href="#projects" className="project inline-flex items-center gap-2">
+                                <FontAwesomeIcon icon={faRocket} />
+                                View Projects
+                            </a>
 
 
                         </motion.div>
