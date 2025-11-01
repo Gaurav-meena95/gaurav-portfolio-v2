@@ -21,7 +21,7 @@ export function Hero() {
         const timer = setInterval(() => {
             setText(fullText.slice(0, index));
             index++
-            if (index > fullText.length){
+            if (index > fullText.length) {
                 index = 0
             }
         }, 100)
@@ -31,7 +31,7 @@ export function Hero() {
 
 
 
-    const particles = useMemo(() => [...Array(100)].map(() => {
+    const particles = useMemo(() => [...Array(40)].map(() => {
         const x = Math.random() * windowSize.width
         const y = Math.random() * windowSize.height
         const dx = (Math.random() - 0.5) * 160
@@ -79,7 +79,7 @@ export function Hero() {
                     <motion.div
                         initial={{ opacity: 0, x: -50 }}
                         animate={{ opacity: 2, x: 10 }}
-                        transition={{ duration: 1}}
+                        transition={{ duration: 1 }}
                         className="space-y-6">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
