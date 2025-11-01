@@ -12,16 +12,37 @@ export function Contact() {
     message: '',
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert('Form submitted')
-    console.log('Form submitted:', formData);
 
-    setFormData({
-      name: '',
-      email: '',
-      message: ''
-    })
+    const payload = {
+      access_key: 'dd25791c-130c-4214-94d3-44a361cf950d',
+      name: formData.name,
+      email: formData.email,
+      message: formData.message,
+      from_name: 'Portfolio Contact Form',
+      subject: 'New Contact Form Submission',
+    };
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        alert('Thanks! Your message has been sent.');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        alert('Sorry, there was a problem sending your message. Please try again.');
+        console.error('Web3Forms error:', data);
+      }
+    } catch (err) {
+      alert('Network error. Please check your connection and try again.');
+      console.error('Submit error:', err);
+    }
   };
 
   const contactInfo = [
@@ -187,7 +208,7 @@ export function Contact() {
 
                 <button
                   type="submit"
-                  className="w-full bg-linear-to-r from-[#00A3FF] to-[#A855F7] hover:opacity-90 transition-all duration-300 shadow-[0_0_20px_rgba(0,163,255,0.5)] hover:shadow-[0_0_30px_rgba(0,163,255,0.7)] rounded-lg"
+                  className="w-full bg-linear-to-r p-2 from-[#00A3FF] to-[#A855F7] hover:opacity-90 transition-all duration-300 shadow-[0_0_20px_rgba(0,163,255,0.5)] hover:shadow-[0_0_30px_rgba(0,163,255,0.7)] rounded-lg"
                   size="lg"
                 >
                   <span className="mr-2 h-5 w-5" />

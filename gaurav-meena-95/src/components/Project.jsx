@@ -23,9 +23,10 @@ export function Projects() {
         const token = import.meta?.env?.VITE_GITHUB_TOKEN
         if (token) headers.Authorization = `Bearer ${token}`
 
-        const reposRes = await fetch(`https://api.github.com/users/${username}/repos?per_page=100&sort=updated`, { headers })
+        const reposRes = await fetch(`https://api.github.com/users/${username}/repos?per_page=30&sort=updated`, { headers })
         if (!reposRes.ok) throw new Error(`GitHub repos: ${reposRes.status}`)
         const repos = await reposRes.json()
+        console.log('[Projects] repos fetched', Array.isArray(repos) ? repos.length : repos)
 
         const filtered = repos.filter(r => !r.fork && !r.archived && !r.disabled)
 
@@ -40,13 +41,15 @@ export function Projects() {
         const result = await Promise.all(filtered.map(async (r, idx) => {
           let langs = []
           try {
-            const langRes = await fetch(r.languages_url, { headers })
-            if (langRes.ok) {
-              const langObj = await langRes.json()
-              langs = Object.keys(langObj).slice(0, 5)
+            if (idx < 6) {
+              const langRes = await fetch(r.languages_url, { headers })
+              if (langRes.ok) {
+                const langObj = await langRes.json()
+                langs = Object.keys(langObj).slice(0, 5)
+              }
             }
           } catch (e) {
-            console.error(e)
+            console.error('[Projects] languages fetch failed', e)
           }
 
           return {
@@ -109,13 +112,16 @@ export function Projects() {
                   />
                 </div>
 
-                <div className="p-6 flex-1 flex flex-col">
+                <div className="p-6 flex-1 flex flex-col ">
                   <h3 className="text-xl mb-2 text-white group-hover:text-transparent group-hover:bg-linear-to-r group-hover:from-[#00A3FF] group-hover:to-[#A855F7] group-hover:bg-clip-text transition-all duration-300">
                     {project.title}
                   </h3>
 
-                  <p className="text-gray-400 mb-4 flex-1">
-                    {project.description}
+                  <p className="text-gray-400 mb-4 flex-1 my-2 flex gap-3">
+                    {/* {project.description} */}
+                    <div className="text-white bg-[#408ce8] p-2 rounded-lg w-1 h-1"></div>
+                    <div className="text-white bg-[#c18df1] p-2 rounded-lg w-1 h-1"></div>
+                    <div className="text-white bg-[#A855F7] p-2 rounded-lg w-1 h-1"></div>
                   </p>
 
                   <div className="flex flex-wrap gap-2 mb-4">

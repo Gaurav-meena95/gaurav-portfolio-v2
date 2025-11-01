@@ -6,9 +6,9 @@ import { faCode, faHeart } from '@fortawesome/free-solid-svg-icons';
 
 export function Footer() {
   const socialLinks = [
-    { icon: faLinkedinIn, link: '#', label: 'LinkedIn' },
-    { icon: faGithub, link: '#', label: 'GitHub' },
-    { icon: faCode, link: '#', label: 'LeetCode' },
+    { icon: faLinkedinIn, link: 'https://www.linkedin.com/in/gaurav-meena-3917b2323/', label: 'LinkedIn' },
+    { icon: faGithub, link: 'https://github.com/Gaurav-meena95', label: 'GitHub' },
+    { icon: faCode, link: 'https://codolio.com/profile/Gaurav_meena95', label: 'Codolio' },
   ];
 
   return (
