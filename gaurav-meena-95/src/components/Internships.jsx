@@ -13,16 +13,7 @@ export function Internships() {
       description: 'Added multiple new features improving UX and performance.',
       link: '#',
     },
-    {
-      type: 'certification',
-      icon: faAward,
-      title: 'JavaScript Course',
-      company: 'KnowledgeGate',
-      period: 'Feb 2025',
-      description: 'Score: 45/49',
-      link: '#',
-    },
-    {
+     {
       type: 'certification',
       icon: faAward,
       title: 'Hacktoberfest 2024 Contributor',
@@ -31,6 +22,15 @@ export function Internships() {
       description: 'Open-source contributions recognized.',
       link: '#',
     },
+    {
+      type: 'certification',
+      icon: faAward,
+      title: 'JavaScript Course',
+      company: 'KnowledgeGate',
+      period: 'Feb 2025',
+      description: 'Score: 45/49',
+      link: '#',
+    }
   ];
 
   return (
