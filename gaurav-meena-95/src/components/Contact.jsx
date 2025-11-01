@@ -40,12 +40,12 @@ export function Contact() {
   ];
 
   const socialLinks = [
-    { icon: faLinkedin, label: 'LinkedIn', link: '#', color: '#00A3FF' },
-    { icon: faGithub, label: 'GitHub', link: '#', color: '#A855F7' },
-    { icon: faCode, label: 'LeetCode', link: '#', color: '#00A3FF' },
-    { icon: faCode, label: 'CodeChef', link: '#', color: '#A855F7' },
-    { icon: faCode, label: 'Codeforces', link: '#', color: '#00A3FF' },
-    { icon: faCode, label: 'HackerRank', link: '#', color: '#A855F7' },
+    { icon: faLinkedin, label: 'LinkedIn', link: 'https://www.linkedin.com/in/gaurav-meena-3917b2323/', color: '#00A3FF' },
+    { icon: faGithub, label: 'GitHub', link: 'https://github.com/Gaurav-meena95', color: '#A855F7' },
+    { icon: faCode, label: 'LeetCode', link: 'https://leetcode.com/u/Gaurav_meena95/', color: '#00A3FF' },
+    { icon: faCode, label: 'CodeChef', link: 'https://codechef.com/users/gaurav_meena95', color: '#A855F7' },
+    { icon: faCode, label: 'Codeforces', link: 'https://codeforces.com/profile/G.meena', color: '#00A3FF' },
+    { icon: faCode, label: 'codolio', link: 'https://codolio.com/profile/Gaurav_meena95', color: '#A855F7' },
   ];
 
   return (
