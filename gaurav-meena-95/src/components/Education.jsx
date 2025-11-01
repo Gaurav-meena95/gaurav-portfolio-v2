@@ -41,7 +41,7 @@ export function Education() {
 
         <div className="relative">
           {/* Vertical line */}
-          <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-linear-to-b from-[#00A3FF] via-[#A855F7] to-[#00A3FF]"></div>
+          <div className="absolute left-4 md:left-8 top-0 bottom-0 w-0.5 bg-linear-to-b from-[#00A3FF] via-[#A855F7] to-[#00A3FF]"></div>
 
           <div className="space-y-12">
             {timeline.map((item, index) => (
@@ -51,10 +51,10 @@ export function Education() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: false }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="relative pl-20"
+                className="relative pl-10 md:pl-20"
               >
                 {/* Timeline dot */}
-                <div className="absolute left-6 top-6 -translate-x-1/2">
+                <div className="absolute left-4 md:left-6 top-6 -translate-x-1/2">
                   <div className="w-5 h-5 rounded-full bg-linear-to-r from-[#00A3FF] to-[#A855F7] shadow-[0_0_20px_rgba(0,163,255,0.5)]"></div>
                 </div>
 

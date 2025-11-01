@@ -109,7 +109,7 @@ export function Contact() {
               >
                 <div className="absolute -inset-0.5 bg-linear-to-r from-[#00A3FF] to-[#A855F7] rounded-xl opacity-0 group-hover:opacity-30 blur transition duration-500"></div>
                 
-                <div className="relative bg-[#161B22]/60 backdrop-blur-xl rounded-xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300 flex items-center gap-4">
+                <div className="relative bg-[#161B22]/60 backdrop-blur-xl rounded-xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300 flex flex-wrap items-center gap-3 sm:gap-4">
                   <div className="w-12 h-12 rounded-xl bg-linear-to-r from-[#00A3FF]/20 to-[#A855F7]/20 flex items-center justify-center shadow-[0_0_20px_rgba(0,163,255,0.3)]">
                   <FontAwesomeIcon className="w-6 h-6 text-[#00A3FF]" icon={info.icon}/>
                   </div>
@@ -131,22 +131,22 @@ export function Contact() {
             >
               <div className="absolute -inset-0.5 bg-linear-to-r from-[#00A3FF] to-[#A855F7] rounded-xl opacity-0 group-hover:opacity-30 blur transition duration-500"></div>
               
-              <div className="relative bg-[#161B22]/60 backdrop-blur-xl rounded-xl p-6 border border-white/10">
+              <div className="relative bg[#161B22]/60 backdrop-blur-xl rounded-xl p-6 border border-white/10">
                 <h3 className="text-lg mb-4 text-white">Find me on</h3>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {socialLinks.map((social, index) => (
                     <motion.a
                       key={index}
                       href={social.link}
                       whileHover={{ scale: 1.1, y: -2 }}
-                      className="w-full aspect-square rounded-lg flex items-center justify-center border border-white/10 hover:border-white/30 transition-all duration-300"
+                      className="w-full aspect-square rounded-lg flex flex-col sm:flex-row items-center justify-center border border-white/10 hover:border-white/30 transition-all duration-300"
                       style={{
                         background: `linear-gradient(135deg, ${social.color}20, ${social.color}10)`,
                         boxShadow: `0 0 15px ${social.color}20`,
                       }}
                     >
                         <FontAwesomeIcon className="w-5 h-5" style={{ color: social.color }}  icon={social.icon}/> 
-                        <span className="text-xs ml-3 text-white/80">{social.label}</span>
+                        <span className="hidden sm:inline text-xs ml-3 text-white/80">{social.label}</span>
                     </motion.a>
                   ))}
                 </div>
