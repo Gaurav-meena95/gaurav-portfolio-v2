@@ -41,3 +41,52 @@ html {
     @apply border-2 border-[#00A3FF] text-[#00A3FF] hover:bg-[#00A3FF]/10 transition-all duration-300  py-1 px-5 rounded-lg hover:text-white;
   }
 }
+
+/* Light theme minimal overrides */
+html.light .app-root {
+  color-scheme: light;
+}
+
+/* Common dark surfaces used across cards */
+html.light .app-root .bg-\[\#161B22\]\/60 { background-color: rgba(255,255,255,0.75) !important; }
+html.light .app-root .bg-\[\#0D1117\]\/80 { background-color: rgba(255,255,255,0.85) !important; }
+html.light .app-root .bg-\[\#0D1117\] { background-color: #ffffff !important; }
+
+/* Borders that were white/10 look too faint on light */
+html.light .app-root .border-white\/10 { border-color: rgba(0,0,0,0.08) !important; }
+html.light .app-root .hover\:border-white\/20:hover { border-color: rgba(0,0,0,0.16) !important; }
+
+/* Headings readable in light mode (but do not override gradient clipped headings) */
+html.light .app-root h1:not(.bg-clip-text),
+html.light .app-root h2:not(.bg-clip-text),
+html.light .app-root h3:not(.bg-clip-text),
+html.light .app-root h4:not(.bg-clip-text),
+html.light .app-root h5:not(.bg-clip-text),
+html.light .app-root h6:not(.bg-clip-text) { color: #0f172a !important; }
+/* Ensure gradient text remains transparent to show the background gradient */
+html.light .app-root .bg-clip-text.text-transparent { -webkit-text-fill-color: transparent; color: transparent; }
+
+/* Muted text colors for light mode readability */
+html.light .app-root .text-gray-400 { color: #475569 !important; }
+html.light .app-root .text-gray-500 { color: #64748b !important; }
+html.light .app-root .text-gray-300 { color: #334155 !important; }
+
+/* Many components use text-white on content; make it dark on light mode by default */
+html.light .app-root :where(p, li, span, h1, h2, h3, h4, h5, h6).text-white { color: #0f172a !important; }
+
+/* Removed forcing white text on all bg-linear-to-r so gradient text remains visible */
+/* But preserve white text when placed on gradient/brand backgrounds (buttons, badges) */
+html.light .app-root .bg-linear-to-r .text-white { color: #ffffff !important; }
+html.light .app-root .from-\[\#00A3FF\] .text-white,
+html.light .app-root .to-\[\#A855F7\] .text-white,
+html.light .app-root .bg-\[\#00A3FF\] .text-white,
+html.light .app-root .bg-\[\#A855F7\] .text-white { color: #ffffff !important; }
+
+/* Inputs and textareas in Contact should be dark text on light */
+html.light .app-root input,
+html.light .app-root textarea { color: #0f172a !important; }
+
+/* Semi-transparent white text (e.g., social labels) -> darker in light */
+html.light .app-root .text-white\/80 { color: rgba(15, 23, 42, 0.8) !important; }
+
+/* Keep gradients and glows intact; no override needed */
