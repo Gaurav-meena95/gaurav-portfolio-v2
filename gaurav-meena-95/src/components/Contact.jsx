@@ -107,15 +107,15 @@ export function Contact() {
                 transition={{ duration: 0.4, delay: index * 0.1 }}
                 className="relative group block"
               >
-                <div className="absolute -inset-0.5 bg-linear-to-r from-[#00A3FF] to-[#A855F7] rounded-xl opacity-0 group-hover:opacity-30 blur transition duration-500"></div>
+                <div className="absolute inset-0 md:-inset-0.5 bg-linear-to-r from-[#00A3FF] to-[#A855F7] rounded-xl opacity-0 group-hover:opacity-30 blur transition duration-500"></div>
                 
-                <div className="relative bg-[#161B22]/60 backdrop-blur-xl rounded-xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300 flex flex-wrap items-center gap-3 sm:gap-4">
+                <div className="relative bg-[#161B22]/60 backdrop-blur-xl rounded-xl p-4 border border-white/10 hover:border-white/20 transition-all duration-300 flex flex-wrap items-center  gap-3 sm:gap-4">
                   <div className="w-12 h-12 rounded-xl bg-linear-to-r from-[#00A3FF]/20 to-[#A855F7]/20 flex items-center justify-center shadow-[0_0_20px_rgba(0,163,255,0.3)]">
                   <FontAwesomeIcon className="w-6 h-6 text-[#00A3FF]" icon={info.icon}/>
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">{info.label}</p>
-                    <p className="text-white">{info.value}</p>
+                    <p className="text-white break-words max-w-full">{info.value}</p>
                   </div>
                 </div>
               </motion.a>
@@ -139,14 +139,14 @@ export function Contact() {
                       key={index}
                       href={social.link}
                       whileHover={{ scale: 1.1, y: -2 }}
-                      className="w-full aspect-square rounded-lg flex flex-col sm:flex-row items-center justify-center border border-white/10 hover:border-white/30 transition-all duration-300"
+                      className="w-full aspect-square rounded-lg flex flex-col sm:flex-row items-center justify-center border border-white/10 hover:border-white/30 transition-all duration-300 overflow-hidden"
                       style={{
                         background: `linear-gradient(135deg, ${social.color}20, ${social.color}10)`,
                         boxShadow: `0 0 15px ${social.color}20`,
                       }}
                     >
                         <FontAwesomeIcon className="w-5 h-5" style={{ color: social.color }}  icon={social.icon}/> 
-                        <span className="hidden sm:inline text-xs ml-3 text-white/80">{social.label}</span>
+                        <span className="hidden md:inline text-xs ml-3 text-white/80">{social.label}</span>
                     </motion.a>
                   ))}
                 </div>
@@ -162,7 +162,7 @@ export function Contact() {
             transition={{ duration: 0.6 }}
             className="relative group"
           >
-            <div className="absolute -inset-0.5 bg-linear-to-r from-[#00A3FF] to-[#A855F7] rounded-2xl opacity-20 group-hover:opacity-30 blur transition duration-500"></div>
+            <div className="absolute inset-0 md:-inset-0.5 bg-linear-to-r from-[#00A3FF] to-[#A855F7] rounded-2xl opacity-20 group-hover:opacity-30 blur transition duration-500"></div>
             
             <div className="relative bg-[#161B22]/60 backdrop-blur-xl rounded-2xl p-8 border border-white/10">
               <form onSubmit={handleSubmit} className="space-y-6">
