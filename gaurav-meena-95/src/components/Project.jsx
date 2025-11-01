@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExternalLink } from '@fortawesome/free-solid-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 export function Projects() {
   const [showMore, setShowMore] = useState(false)
@@ -11,68 +11,79 @@ export function Projects() {
   const [error, setError] = useState(null)
 
   const username = 'Gaurav-meena95'
+  const REQUEST_TIMEOUT = 8000
+  const PER_PAGE = 120
+
+  const fetchWithTimeout = (url, options = {}, timeout = REQUEST_TIMEOUT) => {
+    const controller = new AbortController()
+    const id = setTimeout(() => controller.abort(), timeout)
+    return fetch(url, { ...options, signal: controller.signal })
+      .finally(() => clearTimeout(id))
+  }
+
+  const fetchRepos = useCallback(async () => {
+    try {
+      setLoading(true)
+      setError(null)
+
+      const headers = { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' }
+      const token = import.meta?.env?.VITE_GITHUB_TOKEN
+      if (token) headers.Authorization = `Bearer ${token}`
+
+      const reposRes = await fetchWithTimeout(`https://api.github.com/users/${username}/repos?per_page=${PER_PAGE}&sort=updated`, { headers })
+      if (!reposRes.ok) throw new Error(`GitHub repos: ${reposRes.status}`)
+      const repos = await reposRes.json()
+      
+      const filtered = repos.filter(r => !r.fork && !r.archived && !r.disabled)
+
+      const gradients = [
+        'from-blue-500 to-cyan-500',
+        'from-purple-500 to-pink-500',
+        'from-cyan-500 to-blue-500',
+        'from-green-500 to-emerald-500',
+        'from-orange-500 to-red-500'
+      ]
+
+      const result = await Promise.all(filtered.map(async (r, idx) => {
+        let langs = []
+        try {
+          if (idx < 3) {
+            const langRes = await fetchWithTimeout(r.languages_url, { headers })
+            if (langRes.ok) {
+              const langObj = await langRes.json()
+              langs = Object.keys(langObj).slice(0, 5)
+            }
+          }
+        } catch (e) {
+          console.error('[Projects] languages fetch failed', e)
+        }
+
+        return {
+          title: r.name.replace(/[-_]/g, ' '),
+          description: r.description || 'No description provided.',
+          tech: langs.length ? langs : (r.language ? [r.language] : []),
+          image: `https://opengraph.githubassets.com/1/${r.full_name}`,
+          gradient: gradients[idx % gradients.length],
+          link: r.homepage && r.homepage.trim() ? r.homepage : r.html_url,
+          repo: r.html_url
+        }
+      }))
+
+      setProjects(result)
+    } catch (e) {
+      setError(e.message || 'Failed to load projects')
+    } finally {
+      setLoading(false)
+    }
+  }, [username])
+
+  useEffect(() => {
+    fetchRepos()
+  }, [fetchRepos])
+
   console.log(loading)
   console.log(error)
-  useEffect(() => {
-    async function fetchRepos() {
-      try {
-        setLoading(true)
-        setError(null)
-
-        const headers = { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' }
-        const token = import.meta?.env?.VITE_GITHUB_TOKEN
-        if (token) headers.Authorization = `Bearer ${token}`
-
-        const reposRes = await fetch(`https://api.github.com/users/${username}/repos?per_page=30&sort=updated`, { headers })
-        if (!reposRes.ok) throw new Error(`GitHub repos: ${reposRes.status}`)
-        const repos = await reposRes.json()
-        console.log('[Projects] repos fetched', Array.isArray(repos) ? repos.length : repos)
-
-        const filtered = repos.filter(r => !r.fork && !r.archived && !r.disabled)
-
-        const gradients = [
-          'from-blue-500 to-cyan-500',
-          'from-purple-500 to-pink-500',
-          'from-cyan-500 to-blue-500',
-          'from-green-500 to-emerald-500',
-          'from-orange-500 to-red-500'
-        ]
-
-        const result = await Promise.all(filtered.map(async (r, idx) => {
-          let langs = []
-          try {
-            if (idx < 6) {
-              const langRes = await fetch(r.languages_url, { headers })
-              if (langRes.ok) {
-                const langObj = await langRes.json()
-                langs = Object.keys(langObj).slice(0, 5)
-              }
-            }
-          } catch (e) {
-            console.error('[Projects] languages fetch failed', e)
-          }
-
-          return {
-            title: r.name.replace(/[-_]/g, ' '),
-            description: r.description || 'No description provided.',
-            tech: langs.length ? langs : (r.language ? [r.language] : []),
-            image: `https://opengraph.githubassets.com/1/${r.full_name}`,
-            gradient: gradients[idx % gradients.length],
-            link: r.homepage && r.homepage.trim() ? r.homepage : r.html_url,
-            repo: r.html_url
-          }
-        }))
-
-        setProjects(result)
-      } catch (e) {
-        setError(e.message)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchRepos()
-  }, [username])
+  
 
   const visibleProjects = showMore ? projects : projects.slice(0, 3);
   return (
@@ -81,8 +92,8 @@ export function Projects() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.2 }}
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl mb-4 bg-linear-to-r from-[#00A3FF] to-[#A855F7] bg-clip-text text-transparent">
@@ -90,6 +101,15 @@ export function Projects() {
           </h2>
         </motion.div>
 
+        {error && (
+          <div className="mb-6 text-center text-red-400">
+            Failed to load projects: {error}
+            <button onClick={fetchRepos} className="ml-3 underline text-[#00A3FF]">Retry</button>
+          </div>
+        )}
+        {loading && (
+          <div className="mb-6 text-center text-gray-400">Loading projects...</div>
+        )}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {visibleProjects.map((project, index) => (
             <motion.div

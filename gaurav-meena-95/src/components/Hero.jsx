@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRocket, faFileDownload } from "@fortawesome/free-solid-svg-icons";
@@ -30,6 +30,18 @@ export function Hero() {
     }, [])
 
 
+
+    const particles = useMemo(() => [...Array(100)].map(() => {
+        const x = Math.random() * windowSize.width
+        const y = Math.random() * windowSize.height
+        const dx = (Math.random() - 0.5) * 160
+        const dy = (Math.random() - 0.5) * 160
+        const scale = Math.random() * 0.5 + 0.5
+        const duration = Math.random() * 2 + 2
+        return { x, y, dx, dy, scale, duration }
+    }), [windowSize.width, windowSize.height])
+
+
     return (
         <section className="min-h-screen relative overflow-hidden flex items-center justify-center px-6 py-20">
             {/* animated backgroud*/}
@@ -41,32 +53,20 @@ export function Hero() {
             {/* random partical */}
             <div className="absolute inset-0">
                 {
-                    [...Array(100)].map((_, i) => {
-                        const x1 = Math.random() * windowSize.width
-                        const x2 = Math.random() * windowSize.width
-                        const y1 = Math.random() * windowSize.height
-                        const y2 = Math.random() * windowSize.height
-                        const randomScale = Math.random() * 0.5 + 0.5
-                        const randomDuration = Math.random() * 10 + 10
+                    particles.map((p, i) => {
                         return (
                             <motion.div
                                 key={i}
                                 className="absolute w-1 h-1 bg-linear-to-r from-[#00A3FF] to-[#A855F7] rounded-full"
-                                initial={{
-                                    x: x1,
-                                    y: y1,
-                                    scale: randomScale,
-                                }}
-                                animate={{
-                                    y: [null, y2],
-                                    x: [null, x2],
-                                }}
+                                initial={{ x: p.x, y: p.y, scale: p.scale }}
+                                animate={{ x: [p.x - p.dx, p.x + p.dx], y: [p.y - p.dy, p.y + p.dy] }}
                                 transition={{
-                                    duration: randomDuration,
+                                    duration: p.duration,
                                     repeat: Infinity,
-                                    ease: 'linear',
+                                    repeatType: 'mirror',
+                                    ease: 'easeInOut',
+                                    delay: p.delay,
                                 }}
-
                             />
                         )
                     })
