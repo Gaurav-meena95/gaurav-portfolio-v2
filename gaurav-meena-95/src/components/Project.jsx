@@ -12,8 +12,37 @@ export function Projects() {
 
   const username = 'Gaurav-meena95'
   const REQUEST_TIMEOUT = 8000
-  const PER_PAGE = 120
+  const PER_PAGE = 60
 
+  const fallbackProjects = [
+    {
+      title: 'portfolio-v2',
+      description: 'My portfolio site (fallback)',
+      tech: ['React', 'Vite', 'TailwindCSS'],
+      image: 'https://opengraph.githubassets.com/1/Gaurav-meena95/gaurav-portfolio-v2',
+      gradient: 'from-blue-500 to-cyan-500',
+      link: 'https://gaurav-meena95.github.io/',
+      repo: 'https://github.com/Gaurav-meena95/gaurav-portfolio-v2'
+    },
+    {
+      title: 'DSA-practice',
+      description: 'Coding practice (fallback)',
+      tech: ['JavaScript'],
+      image: 'https://opengraph.githubassets.com/1/Gaurav-meena95/DSA-practice',
+      gradient: 'from-purple-500 to-pink-500',
+      link: 'https://github.com/Gaurav-meena95/DSA-practice',
+      repo: 'https://github.com/Gaurav-meena95/DSA-practice'
+    },
+    {
+      title: 'mini-projects',
+      description: 'Small experiments (fallback)',
+      tech: ['HTML', 'CSS', 'JS'],
+      image: 'https://opengraph.githubassets.com/1/Gaurav-meena95/mini-projects',
+      gradient: 'from-green-500 to-emerald-500',
+      link: 'https://github.com/Gaurav-meena95/mini-projects',
+      repo: 'https://github.com/Gaurav-meena95/mini-projects'
+    }
+  ]
   const fetchWithTimeout = (url, options = {}, timeout = REQUEST_TIMEOUT) => {
     const controller = new AbortController()
     const id = setTimeout(() => controller.abort(), timeout)
@@ -31,9 +60,15 @@ export function Projects() {
       if (token) headers.Authorization = `Bearer ${token}`
 
       const reposRes = await fetchWithTimeout(`https://api.github.com/users/${username}/repos?per_page=${PER_PAGE}&sort=updated`, { headers })
-      if (!reposRes.ok) throw new Error(`GitHub repos: ${reposRes.status}`)
+      if (!reposRes.ok) {
+        if (reposRes.status === 403) {
+          setProjects(fallbackProjects)
+          throw new Error('GitHub repos: 403 (rate limit). Add VITE_GITHUB_TOKEN to .env and restart dev server')
+        }
+        throw new Error(`GitHub repos: ${reposRes.status}`)
+      }
       const repos = await reposRes.json()
-      
+
       const filtered = repos.filter(r => !r.fork && !r.archived && !r.disabled)
 
       const gradients = [
@@ -83,7 +118,7 @@ export function Projects() {
 
   console.log(loading)
   console.log(error)
-  
+
 
   const visibleProjects = showMore ? projects : projects.slice(0, 3);
   return (
@@ -108,7 +143,7 @@ export function Projects() {
           </div>
         )}
         {loading && (
-          <div className="mb-6 text-center text-gray-400">Loading projects...</div>
+          <div className="mb-6 text-center text-gray-400 ">Loading projects...</div>
         )}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {visibleProjects.map((project, index) => (
@@ -120,7 +155,7 @@ export function Projects() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="relative group"
             >
-              <div className="absolute -inset-0.5 bg-linear-to-r from-[#00A3FF] to-[#A855F7] rounded-2xl opacity-0 group-hover:opacity-50 blur transition duration-500"></div>
+              <div className="absolute inset-0 md:-inset-0.5 bg-linear-to-r from-[#00A3FF] to-[#A855F7] rounded-2xl opacity-0 group-hover:opacity-50 blur transition duration-500"></div>
 
               <div className="relative bg-[#161B22]/60 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden hover:border-white/20 transition-all duration-300 h-full flex flex-col">
                 <div className="relative h-48 overflow-hidden">
@@ -161,7 +196,7 @@ export function Projects() {
 
                   <div className="flex gap-3">
                     <a size="sm" href={project.link} target="_blank" className="flex-1 bg-linear-to-r from-[#00A3FF] to-[#A855F7] hover:opacity-90 p-1 rounded-lg transition-all duration-300  text-center" > <FontAwesomeIcon className="mr-2 h-4 w-4" icon={faExternalLink} /> Live Demo</a  >
-                    <a href={project.repo} target='_blank'><FontAwesomeIcon  size='xl' className='mt-1' icon={faGithub} /></a>
+                    <a href={project.repo} target='_blank'><FontAwesomeIcon size='xl' className='mt-1' icon={faGithub} /></a>
                   </div>
                 </div>
               </div>
