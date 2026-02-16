@@ -1,8 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRocket, faFileDownload, faEye } from "@fortawesome/free-solid-svg-icons";
-import resumePdf from "../assets/Resume-Gaurav Meena.pdf";
+import { faRocket, faEye } from "@fortawesome/free-solid-svg-icons";
 
 
 
@@ -110,11 +109,8 @@ export function Hero() {
                             transition={{ delay: 0.6 }}
                             className="flex flex-wrap gap-4">
 
-                            <a href={resumePdf} download="Gaurav-Meena-Resume.pdf" className="resume inline-flex items-center gap-2">
-                                <FontAwesomeIcon icon={faFileDownload} />
-                                Download Resume
-                            </a>
-                            <a href={resumePdf} target="_blank" rel="noopener noreferrer" className="resume inline-flex items-center gap-2">
+                            
+                            <a href='https://my.newtonschool.co/template/user/meenajigaurav9589/resume/' target="_blank" rel="noopener noreferrer" className="resume inline-flex items-center gap-2">
                                 <FontAwesomeIcon icon={faEye}/>
                                 View Resume
                             </a>
