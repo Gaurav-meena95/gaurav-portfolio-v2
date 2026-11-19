@@ -59,7 +59,7 @@ export function Contact() {
               <p className="text-[14px] text-portfolio-muted leading-relaxed">
                 open to engineering roles, agentic ai, and high-impact software projects.
               </p>
-              <p className="text-xs font-mono text-portfolio-muted mt-1">
+              <p className="text-xs font-mono text-portfolio-muted mt-1 break-all">
                 {PERSONAL_INFO.email} · {PERSONAL_INFO.phone}
               </p>
             </div>

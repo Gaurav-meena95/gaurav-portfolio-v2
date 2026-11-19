@@ -43,7 +43,7 @@ export function HoloCard({ onNavigate }) {
   return (
     <div
       id="holo-card-container"
-      className="perspective-1200 relative select-none w-full max-w-[420px] mx-auto py-4 cursor-pointer"
+      className="perspective-1200 relative select-none w-full max-w-[320px] sm:max-w-[380px] md:max-w-[420px] mx-auto py-2 sm:py-4 cursor-pointer"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onClick={toggleFlip}

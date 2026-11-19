@@ -38,7 +38,7 @@ export function LandingStage({ onEnterPortfolio }) {
 
   return (
     <div
-      className="relative min-h-screen w-full flex flex-col items-center justify-between p-4 sm:p-6 overflow-hidden transition-colors duration-500 select-none"
+      className="relative min-h-screen w-full flex flex-col items-center justify-between p-4 sm:p-6 overflow-x-hidden overflow-y-auto transition-colors duration-500 select-none"
       style={{ backgroundColor: activeTheme.bg }}
     >
       {/* Scanline & ambient overlay matching portfolio_v1 */}

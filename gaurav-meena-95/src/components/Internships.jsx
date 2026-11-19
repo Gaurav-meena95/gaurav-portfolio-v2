@@ -17,7 +17,7 @@ function WorkList({ rows }) {
             <BrandTile k={r.company.toLowerCase().includes('traceroot') ? 'ycombinator' : r.company.toLowerCase().includes('travel') ? 'flutter' : 'react'} size={36} />
 
             <div className="min-w-0 flex-1">
-              <div className="flex items-baseline justify-between gap-3">
+              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-3">
                 <h3 className="text-[15px] font-semibold text-portfolio-text">
                   {r.role} <span className="text-portfolio-muted">· {r.company}</span>
                 </h3>
@@ -60,7 +60,7 @@ function EducationList({ rows }) {
             </span>
 
             <div className="min-w-0 flex-1">
-              <div className="flex items-baseline justify-between gap-3">
+              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-3">
                 <h3 className="text-[15px] font-semibold text-portfolio-text">
                   {r.degree}
                 </h3>

@@ -15,7 +15,7 @@ export function Achievements() {
               </span>
 
               <div className="min-w-0 flex-1">
-                <div className="flex items-baseline justify-between gap-3">
+                <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-3">
                   <h3 className="text-[15px] font-semibold text-portfolio-text">
                     {a.title}
                   </h3>

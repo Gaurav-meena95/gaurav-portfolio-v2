@@ -112,8 +112,8 @@ function ProjectCard({ project, isFeatured = false }) {
 
       {/* Content panel */}
       <div className="flex flex-1 flex-col p-4">
-        <div className="flex items-baseline justify-between gap-3">
-          <h3 className="font-display text-[16px] font-semibold tracking-tight text-portfolio-text group-hover:text-white transition-colors">
+        <div className="flex items-baseline justify-between gap-2">
+          <h3 className="font-display text-[15px] sm:text-[16px] font-semibold tracking-tight text-portfolio-text group-hover:text-white transition-colors truncate">
             {project.name}
           </h3>
           <span className="shrink-0 font-mono text-[11px] text-portfolio-muted">{project.date}</span>
@@ -340,7 +340,7 @@ export function Projects() {
             showing <span className="text-portfolio-text font-medium font-sans">{(currentPage - 1) * ITEMS_PER_PAGE + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, filteredProjects.length)}</span> of <span className="text-portfolio-text font-medium font-sans">{filteredProjects.length}</span> projects (10 per page)
           </p>
 
-          <div className="flex items-center gap-1.5 font-mono text-[12px]">
+          <div className="flex flex-wrap items-center justify-center sm:justify-end gap-1 font-mono text-[12px]">
             <button
               onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
               disabled={currentPage === 1}

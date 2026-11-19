@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 
 // Centered ~768px content column from portfolio_v1
 export function Container({ children, className = "" }) {
-  return <div className={`mx-auto w-full max-w-3xl px-6 sm:px-8 ${className}`}>{children}</div>;
+  return <div className={`mx-auto w-full max-w-3xl px-4 sm:px-6 md:px-8 ${className}`}>{children}</div>;
 }
 
 // Consistent section rhythm + scroll offset for the sticky header
