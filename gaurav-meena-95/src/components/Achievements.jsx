@@ -1,115 +1,40 @@
-import { motion } from 'framer-motion';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAward, faBullseye, faMedal, faShield, faTrophy, faZap } from '@fortawesome/free-solid-svg-icons';
-
+import { Section, SectionHeading, Reveal } from './SiteUI';
+import { ACHIEVEMENTS } from '../data/portfolioData';
 
 export function Achievements() {
-  const achievements = [
-    {
-      icon: faTrophy,
-      title: '2× National Cricket Player',
-      year: '2018, 2019',
-      color: '#00A3FF',
-    },
-    {
-      icon: faMedal,
-      title: 'National Wrestling',
-      year: '2023',
-      color: '#A855F7',
-    },
-    {
-      icon: faBullseye,
-      title: 'Regional Basketball',
-      year: '2023',
-      color: '#00A3FF',
-    },
-    {
-      icon: faAward,
-      title: '2× Regional Math Olympiad',
-      year: '2018, 2019',
-      color: '#A855F7',
-    },
-    {
-      icon: faShield,
-      title: 'NCC Cadet',
-      year: 'Active',
-      color: '#00A3FF',
-    },
-    {
-      icon: faZap,
-      title: 'Samsung Bootcamp @ IIT Delhi',
-      year: '2023',
-      color: '#A855F7',
-    },
-  ];
-
   return (
-    <section className="py-20 px-6 relative overflow-hidden" id="achievements">
-      <div className="max-w-7xl mx-auto relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl mb-4 bg-linear-to-r from-[#00A3FF] to-[#A855F7] bg-clip-text text-transparent">
-            Achievements & Extra-Curriculars
-          </h2>
-        </motion.div>
+    <Section id="achievements">
+      <SectionHeading title="selected awards & recognition" />
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {achievements.map((achievement, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: false }}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
-              whileHover={{ y: -5 }}
-              className="relative group"
-            >
-              {/* Glowing effect */}
-              <div
-                className="absolute -inset-0.5 rounded-2xl opacity-0 group-hover:opacity-40 blur transition duration-500"
-                style={{
-                  background: `linear-gradient(135deg, ${achievement.color}, ${achievement.color}80)`,
-                }}
-              ></div>
+      <ul className="flex flex-col">
+        {ACHIEVEMENTS.map((a, i) => (
+          <Reveal key={a.title} delay={i * 0.05}>
+            <li className="group flex items-start gap-4 border-t border-portfolio-border/70 py-4 first:border-t-0">
+              <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-portfolio-border bg-portfolio-card text-base font-mono">
+                {a.icon === "git" ? "✦" : a.icon === "code" ? "⌘" : a.icon === "zap" ? "⚡" : "◈"}
+              </span>
 
-              <div className="relative bg-[#161B22]/60 backdrop-blur-xl rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300 h-full">
-                {/* Icon */}
-                <div
-                  className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4 mx-auto"
-                  style={{
-                    background: `linear-gradient(135deg, ${achievement.color}30, ${achievement.color}10)`,
-                    boxShadow: `0 0 30px ${achievement.color}40`,
-                  }}
-                >
-                    <FontAwesomeIcon className="w-8 h-8" style={{ color: achievement.color }} icon={achievement.icon} />
+              <div className="min-w-0 flex-1">
+                <div className="flex items-baseline justify-between gap-3">
+                  <h3 className="text-[15px] font-semibold text-portfolio-text">
+                    {a.title}
+                  </h3>
+                  <span className="shrink-0 font-mono text-[11px] text-portfolio-muted">{a.date}</span>
                 </div>
 
-                {/* Content */}
-                <div className="text-center">
-                  <h3 className="text-lg mb-2 text-white leading-tight">
-                    {achievement.title}
-                  </h3>
-                  <p
-                    className="text-sm"
-                    style={{ color: achievement.color }}
-                  >
-                    {achievement.year}
-                  </p>
+                <p className="mt-0.5 text-[12px] text-portfolio-muted/80 font-mono">{a.category}</p>
+                <p className="mt-1.5 text-[13px] leading-relaxed text-portfolio-muted">{a.desc}</p>
+
+                <div className="mt-2.5 flex items-center gap-2">
+                  <span className="inline-flex items-center gap-1 rounded-md border border-portfolio-border bg-portfolio-border/40 px-2 py-0.5 font-mono text-[10px] text-portfolio-text/80">
+                    <span className="text-portfolio-muted">verified:</span> {a.highlight}
+                  </span>
                 </div>
               </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-
-      {/* Background effects */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-[#00A3FF] rounded-full opacity-5 blur-[120px]"></div>
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#A855F7] rounded-full opacity-5 blur-[120px]"></div>
-    </section>
+            </li>
+          </Reveal>
+        ))}
+      </ul>
+    </Section>
   );
 }

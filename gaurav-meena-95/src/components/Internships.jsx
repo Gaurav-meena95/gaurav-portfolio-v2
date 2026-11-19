@@ -1,90 +1,125 @@
-import { motion } from 'framer-motion';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faBriefcase, faAward, faExternalLink } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Section, SectionHeading, BrandTile, Reveal } from './SiteUI';
+import { WORK_EXPERIENCE, EDUCATION } from '../data/portfolioData';
+
+const TABS = [
+  { id: "work", label: "work" },
+  { id: "education", label: "education" },
+];
+
+function WorkList({ rows }) {
+  return (
+    <ul className="flex flex-col">
+      {rows.map((r, i) => (
+        <Reveal key={`${r.role}-${r.company}`} delay={i * 0.05}>
+          <li className="flex items-start gap-4 border-t border-portfolio-border/70 py-5 first:border-t-0">
+            <BrandTile k={r.company.toLowerCase().includes('traceroot') ? 'ycombinator' : r.company.toLowerCase().includes('travel') ? 'flutter' : 'react'} size={36} />
+
+            <div className="min-w-0 flex-1">
+              <div className="flex items-baseline justify-between gap-3">
+                <h3 className="text-[15px] font-semibold text-portfolio-text">
+                  {r.role} <span className="text-portfolio-muted">· {r.company}</span>
+                </h3>
+                <span className="shrink-0 font-mono text-[11px] text-portfolio-muted">{r.period}</span>
+              </div>
+
+              <div className="mt-1 flex items-center gap-2">
+                <span className="inline-block rounded border border-portfolio-border bg-portfolio-border/30 px-2 py-0.5 font-mono text-[10px] text-portfolio-muted">
+                  {r.badge}
+                </span>
+                <span className="font-mono text-[11px] text-portfolio-muted">{r.location}</span>
+              </div>
+
+              {r.points && (
+                <ul className="mt-2.5 flex flex-col gap-1.5">
+                  {r.points.map((b, bIdx) => (
+                    <li key={bIdx} className="flex gap-2 text-[13px] leading-relaxed text-portfolio-muted">
+                      <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-portfolio-muted/60" />
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </li>
+        </Reveal>
+      ))}
+    </ul>
+  );
+}
+
+function EducationList({ rows }) {
+  return (
+    <ul className="flex flex-col">
+      {rows.map((r, i) => (
+        <Reveal key={`${r.degree}-${r.institution}`} delay={i * 0.05}>
+          <li className="flex items-start gap-4 border-t border-portfolio-border/70 py-5 first:border-t-0">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-portfolio-border bg-black text-xs font-mono text-portfolio-muted">
+              🎓
+            </span>
+
+            <div className="min-w-0 flex-1">
+              <div className="flex items-baseline justify-between gap-3">
+                <h3 className="text-[15px] font-semibold text-portfolio-text">
+                  {r.degree}
+                </h3>
+                <span className="shrink-0 font-mono text-[11px] text-portfolio-muted">{r.period}</span>
+              </div>
+
+              <p className="mt-0.5 text-[13px] text-portfolio-muted font-mono">{r.institution}</p>
+
+              <div className="mt-2">
+                <span className="inline-block rounded border border-portfolio-border bg-portfolio-border/30 px-2 py-0.5 font-mono text-[10px] text-emerald-400">
+                  {r.grade}
+                </span>
+              </div>
+            </div>
+          </li>
+        </Reveal>
+      ))}
+    </ul>
+  );
+}
 
 export function Internships() {
-  const experiences = [
-    {
-      type: 'internship',
-      icon: faBriefcase,
-      title: 'Frontend Developer',
-      company: 'Gistly AI',
-      period: 'May – Jul 2025',
-      description: 'Added multiple new features improving UX and performance.',
-      link: '#',
-    },
-     {
-      type: 'certification',
-      icon: faAward,
-      title: 'Hacktoberfest 2024 Contributor',
-      company: 'Holopin Badge',
-      period: '2024',
-      description: 'Open-source contributions recognized.',
-      link: '#',
-    },
-    {
-      type: 'certification',
-      icon: faAward,
-      title: 'JavaScript Course',
-      company: 'KnowledgeGate',
-      period: 'Feb 2025',
-      description: 'Score: 45/49',
-      link: '#',
-    }
-  ];
+  const [tab, setTab] = useState("work");
 
   return (
-    <section className="py-20 px-6 relative overflow-hidden" id="internships">
-      <div className="max-w-7xl mx-auto relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl mb-4 bg-linear-to-r from-[#00A3FF] to-[#A855F7] bg-clip-text text-transparent">
-            Internships & Certifications
-          </h2>
-        </motion.div>
+    <Section id="experience">
+      <SectionHeading title="the journey so far" />
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {experiences.map((exp, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: false }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="relative group"
-            >
-              {/* Glowing effect */}
-              <div className="absolute -inset-0.5 bg-linear-to-r from-[#00A3FF] to-[#A855F7] rounded-2xl opacity-0 group-hover:opacity-30 blur transition duration-500"></div>
-
-              <div className="relative bg-[#161B22]/60 backdrop-blur-xl rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300 h-full">
-                {/* Icon */}
-                <div className="flex items-start justify-between mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-linear-to-r from-[#00A3FF]/20 to-[#A855F7]/20 flex items-center justify-center shadow-[0_0_20px_rgba(0,163,255,0.3)]">
-                  <FontAwesomeIcon className="w-6 h-6 text-[#00A3FF]" icon={exp.icon}/>
-                  </div>
-                  <button className="hover:bg-white/5"><FontAwesomeIcon className="h-4 w-4 text-gray-400" icon={faExternalLink}/></button>
-                </div>
-
-                {/* Content */}
-                <div>
-                  <h3 className="text-lg mb-1 text-white">{exp.title}</h3>
-                  <p className="text-[#00A3FF] mb-2">{exp.company}</p>
-                  <p className="text-sm text-gray-500 mb-3">{exp.period}</p>
-                  <p className="text-gray-400 text-sm">{exp.description}</p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+      {/* Tabs matching portfolio_v1 */}
+      <div className="mb-4 flex items-center gap-1 self-start rounded-lg border border-portfolio-border bg-portfolio-border/40 p-1 w-fit">
+        {TABS.map((t) => (
+          <button
+            key={t.id}
+            onClick={() => setTab(t.id)}
+            className={`rounded-md px-3 py-1 text-[12px] font-medium capitalize transition-colors cursor-pointer ${
+              tab === t.id
+                ? "bg-portfolio-bg text-portfolio-text"
+                : "text-portfolio-muted hover:text-portfolio-text"
+            }`}
+          >
+            {t.label}
+          </button>
+        ))}
       </div>
 
-      {/* Background glow */}
-      <div className="absolute top-1/2 right-0 w-96 h-96 bg-[#A855F7] rounded-full opacity-5 blur-[120px]"></div>
-    </section>
+      <div className="mt-1">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={tab}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {tab === "work" && <WorkList rows={WORK_EXPERIENCE} />}
+            {tab === "education" && <EducationList rows={EDUCATION} />}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </Section>
   );
 }

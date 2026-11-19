@@ -1,84 +1,54 @@
-import { motion } from 'framer-motion';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import { faGithub, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
-import { faCode, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { useState, useEffect } from 'react';
+import { Container, ArrowIcon } from './SiteUI';
 
 export function Footer() {
-  const socialLinks = [
-    { icon: faLinkedinIn, link: 'https://www.linkedin.com/in/gaurav-meena-3917b2323/', label: 'LinkedIn' },
-    { icon: faGithub, link: 'https://github.com/Gaurav-meena95', label: 'GitHub' },
-    { icon: faCode, link: 'https://codolio.com/profile/Gaurav_meena95', label: 'Codolio' },
-  ];
+  const [time, setTime] = useState('');
+
+  useEffect(() => {
+    const update = () => {
+      setTime(
+        new Date().toLocaleTimeString('en-US', {
+          timeZone: 'Asia/Kolkata',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true,
+        })
+      );
+    };
+    update();
+    const id = setInterval(update, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
-    <footer className="py-12 px-6 relative overflow-hidden border-t border-white/5">
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          {/* Copyright */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-gray-400 flex items-center gap-2"
-          >
-            © 2025 Gaurav Meena — Designed & Built with
-            <FontAwesomeIcon className="w-4 h-4 text-red-500 fill-red-500 animate-pulse"  icon={faHeart} />
-            using React + Tailwind
-          </motion.p>
+    <footer className="border-t border-portfolio-border/70 py-10 mt-12">
+      <Container>
+        <div className="flex flex-col sm:flex-row items-baseline justify-between gap-4 font-mono text-[12px] text-portfolio-muted">
+          <div className="space-y-1">
+            <p className="text-portfolio-text font-sans font-medium text-[13px]">
+              gaurav meena
+            </p>
+            <p className="text-[11px]">
+              b.tech ai · newton school of technology (rishihood university)
+            </p>
+            <p className="text-[11px] text-portfolio-muted/70">
+              india (ist): {time || '10:00:00 AM'}
+            </p>
+          </div>
 
-          {/* Social icons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="flex items-center gap-4"
+          <button
+            onClick={scrollToTop}
+            className="inline-flex items-center gap-1 transition-colors hover:text-portfolio-text cursor-pointer self-start sm:self-auto"
           >
-            {socialLinks.map((social, index) => (
-              <motion.a
-                key={index}
-                href={social.link}
-                aria-label={social.label}
-                whileHover={{ scale: 1.2, y: -2 }}
-                className="w-10 h-10 rounded-lg bg-[#161B22]/60 backdrop-blur-xl border border-white/10 hover:border-[#00A3FF] flex items-center justify-center transition-all duration-300 group"
-                style={{
-                  boxShadow: '0 0 0 rgba(0,163,255,0)',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = '0 0 20px rgba(0,163,255,0.5)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = '0 0 0 rgba(0,163,255,0)';
-                }}
-              >
-                <FontAwesomeIcon className="w-5 h-5 text-gray-400 group-hover:text-[#00A3FF] transition-colors"  icon={social.icon} />
-              </motion.a>
-            ))}
-          </motion.div>
+            back to top <ArrowIcon className="h-3 w-3 -rotate-45" />
+          </button>
         </div>
-
-        {/* Scroll to top hint */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-center mt-8"
-        >
-          <a
-            href="#"
-            className="text-sm text-gray-500 hover:text-[#00A3FF] transition-colors inline-flex items-center gap-2"
-          >
-            Back to top
-            <span className="text-[#00A3FF]">↑</span>
-          </a>
-        </motion.div>
-      </div>
-
-      {/* Background gradient */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00A3FF] to-transparent opacity-20"></div>
+      </Container>
     </footer>
   );
 }

@@ -1,217 +1,229 @@
-import { motion } from 'framer-motion';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExternalLink } from '@fortawesome/free-solid-svg-icons';
-import { faGithub } from '@fortawesome/free-brands-svg-icons'
-import { useEffect, useState, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import { Section, SectionHeading, Reveal, TechTag, PillLink, GitHubIcon, ArrowIcon } from './SiteUI';
 
-export function Projects() {
-  const [showMore, setShowMore] = useState(false)
-  const [projects, setProjects] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+const CATEGORY_META = {
+  "AI / Agents": { color: "#8b5cf6", glyph: "◇" },
+  "Dev Tools": { color: "#38bdf8", glyph: "⌘" },
+  "Full Stack": { color: "#10b981", glyph: "❖" },
+  "Systems": { color: "#f59e0b", glyph: "∆" },
+};
 
-  const username = 'Gaurav-meena95'
-  const REQUEST_TIMEOUT = 8000
-  const PER_PAGE = 60
+const LANES = [
+  { id: "all", label: "all" },
+  { id: "ai", label: "ai / agents" },
+  { id: "tools", label: "dev tools" },
+  { id: "web", label: "full stack" },
+];
 
-  const fallbackProjects = [
-    {
-      title: 'portfolio-v2',
-      description: 'My portfolio site (fallback)',
-      tech: ['React', 'Vite', 'TailwindCSS'],
-      image: 'https://opengraph.githubassets.com/1/Gaurav-meena95/gaurav-portfolio-v2',
-      gradient: 'from-blue-500 to-cyan-500',
-      link: 'https://gaurav-meena95.github.io/',
-      repo: 'https://github.com/Gaurav-meena95/gaurav-portfolio-v2'
-    },
-    {
-      title: 'DSA-practice',
-      description: 'Coding practice (fallback)',
-      tech: ['JavaScript'],
-      image: 'https://opengraph.githubassets.com/1/Gaurav-meena95/DSA-practice',
-      gradient: 'from-purple-500 to-pink-500',
-      link: 'https://github.com/Gaurav-meena95/DSA-practice',
-      repo: 'https://github.com/Gaurav-meena95/DSA-practice'
-    },
-    {
-      title: 'mini-projects',
-      description: 'Small experiments (fallback)',
-      tech: ['HTML', 'CSS', 'JS'],
-      image: 'https://opengraph.githubassets.com/1/Gaurav-meena95/mini-projects',
-      gradient: 'from-green-500 to-emerald-500',
-      link: 'https://github.com/Gaurav-meena95/mini-projects',
-      repo: 'https://github.com/Gaurav-meena95/mini-projects'
-    }
-  ]
-  const fetchWithTimeout = (url, options = {}, timeout = REQUEST_TIMEOUT) => {
-    const controller = new AbortController()
-    const id = setTimeout(() => controller.abort(), timeout)
-    return fetch(url, { ...options, signal: controller.signal })
-      .finally(() => clearTimeout(id))
-  }
+// Pinned resume projects
+const RESUME_PROJECTS = [
+  {
+    slug: "coderelay",
+    name: "CodeRelay",
+    tagline: "sync accepted solutions from leetcode to github with a modular adapter.",
+    description: "built a manifest v3 extension using typescript and vite to sync accepted solutions from leetcode and other platforms to github. integrated github rest api to automate commits.",
+    category: "Dev Tools",
+    lane: "tools",
+    tech: ["typescript", "vite", "github", "leetcode"],
+    date: "Oct 2026",
+    repo: "https://github.com/Gaurav-meena95/CodeRelay",
+    live: "https://github.com/Gaurav-meena95/CodeRelay",
+    featured: true,
+  },
+  {
+    slug: "form-filling-agent",
+    name: "Form Filling Agent",
+    tagline: "autonomous browser form-filling agent with hybrid rag and chroma cache.",
+    description: "built an ai-powered form-filling agent using langgraph and llama 3.3 70b to automate browser-based form completion with chromadb hybrid rag and structured json schemas.",
+    category: "AI / Agents",
+    lane: "ai",
+    tech: ["langgraph", "python", "fastapi", "docker"],
+    date: "Apr 2026",
+    repo: "https://github.com/Gaurav-meena95/form-filling-agent",
+    live: "https://github.com/Gaurav-meena95/form-filling-agent",
+    featured: true,
+  },
+  {
+    slug: "jeweltrack",
+    name: "JewelTrack",
+    tagline: "smart jewellery inventory, gst billing, and collateral tracking system.",
+    description: "full-stack jewellery business management system for inventory, billing, custom orders, and collateral tracking. built with react.js, node.js, express.js, mongodb, and jwt authentication.",
+    category: "Full Stack",
+    lane: "web",
+    tech: ["react", "nodejs", "express", "mongodb", "tailwindcss"],
+    date: "Dec 2025",
+    repo: "https://github.com/Gaurav-meena95/JewelTrack",
+    live: "https://github.com/Gaurav-meena95/JewelTrack",
+    featured: true,
+  },
+];
 
-  const fetchRepos = useCallback(async () => {
-    try {
-      setLoading(true)
-      setError(null)
+function ProjectCard({ project }) {
+  const meta = CATEGORY_META[project.category] || { color: "#38bdf8", glyph: "⌘" };
+  const maxTech = 4;
+  const extra = (project.tech?.length || 0) - maxTech;
 
-      const headers = { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' }
-      const token = import.meta?.env?.VITE_GITHUB_TOKEN
-      if (token) headers.Authorization = `Bearer ${token}`
-
-      const reposRes = await fetchWithTimeout(`https://api.github.com/users/${username}/repos?per_page=${PER_PAGE}&sort=updated`, { headers })
-      if (!reposRes.ok) {
-        if (reposRes.status === 403) {
-          setProjects(fallbackProjects)
-          throw new Error('GitHub repos: 403 (rate limit). Add VITE_GITHUB_TOKEN to .env and restart dev server')
-        }
-        throw new Error(`GitHub repos: ${reposRes.status}`)
-      }
-      const repos = await reposRes.json()
-
-      const filtered = repos.filter(r => !r.fork && !r.archived && !r.disabled)
-
-      const gradients = [
-        'from-blue-500 to-cyan-500',
-        'from-purple-500 to-pink-500',
-        'from-cyan-500 to-blue-500',
-        'from-green-500 to-emerald-500',
-        'from-orange-500 to-red-500'
-      ]
-
-      const result = await Promise.all(filtered.map(async (r, idx) => {
-        let langs = []
-        try {
-          if (idx < 3) {
-            const langRes = await fetchWithTimeout(r.languages_url, { headers })
-            if (langRes.ok) {
-              const langObj = await langRes.json()
-              langs = Object.keys(langObj).slice(0, 5)
-            }
-          }
-        } catch (e) {
-          console.error('[Projects] languages fetch failed', e)
-        }
-
-        return {
-          title: r.name.replace(/[-_]/g, ' '),
-          description: r.description || 'No description provided.',
-          tech: langs.length ? langs : (r.language ? [r.language] : []),
-          image: `https://opengraph.githubassets.com/1/${r.full_name}`,
-          gradient: gradients[idx % gradients.length],
-          link: r.homepage && r.homepage.trim() ? r.homepage : r.html_url,
-          repo: r.html_url
-        }
-      }))
-
-      setProjects(result)
-    } catch (e) {
-      setError(e.message || 'Failed to load projects')
-    } finally {
-      setLoading(false)
-    }
-  }, [username])
-
-  useEffect(() => {
-    fetchRepos()
-  }, [fetchRepos])
-
-  console.log(loading)
-  console.log(error)
-
-
-  const visibleProjects = showMore ? projects : projects.slice(0, 3);
   return (
-    <section className="py-20 px-6 relative overflow-hidden" id="projects">
-      <div className="max-w-7xl mx-auto relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.2 }}
-          className="text-center mb-16"
+    <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-portfolio-border bg-portfolio-card transition-all duration-200 hover:-translate-y-0.5 hover:border-white/20 hover:shadow-[0_10px_40px_rgba(0,0,0,0.45)]">
+      {/* Cover panel matching portfolio_v1 */}
+      <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-portfolio-border bg-portfolio-bg">
+        <div
+          className="flex h-full w-full items-center justify-center relative select-none"
+          style={{
+            background: `radial-gradient(120% 120% at 15% 0%, ${meta.color}2e, transparent 60%), linear-gradient(160deg, #0a0f1c, #030712)`,
+          }}
         >
-          <h2 className="text-4xl md:text-5xl mb-4 bg-linear-to-r from-[#00A3FF] to-[#A855F7] bg-clip-text text-transparent">
-            Projects Showcase
-          </h2>
-        </motion.div>
-
-        {error && (
-          <div className="mb-6 text-center text-red-400">
-            Failed to load projects: {error}
-            <button onClick={fetchRepos} className="ml-3 underline text-[#00A3FF]">Retry</button>
-          </div>
-        )}
-        {loading && (
-          <div className="mb-6 text-center text-gray-400 ">Loading projects...</div>
-        )}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {visibleProjects.map((project, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="relative group"
-            >
-              <div className="absolute inset-0 md:-inset-0.5 bg-linear-to-r from-[#00A3FF] to-[#A855F7] rounded-2xl opacity-0 group-hover:opacity-50 blur transition duration-500"></div>
-
-              <div className="relative bg-[#161B22]/60 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden hover:border-white/20 transition-all duration-300 h-full flex flex-col">
-                <div className="relative h-48 overflow-hidden">
-                  <div className={`absolute inset-0 bg-linear-to-r ${project.gradient} opacity-20`}></div>
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                </div>
-
-                <div className="p-6 flex-1 flex flex-col ">
-                  <h3 className="text-xl mb-2 text-white group-hover:text-transparent group-hover:bg-linear-to-r group-hover:from-[#00A3FF] group-hover:to-[#A855F7] group-hover:bg-clip-text transition-all duration-300">
-                    {project.title}
-                  </h3>
-
-                  <p className="text-gray-400 mb-4 flex-1 my-2 flex gap-3">
-                    {/* {project.description} */}
-                    <div className="text-white bg-[#408ce8] p-2 rounded-lg w-1 h-1"></div>
-                    <div className="text-white bg-[#c18df1] p-2 rounded-lg w-1 h-1"></div>
-                    <div className="text-white bg-[#A855F7] p-2 rounded-lg w-1 h-1"></div>
-                  </p>
-
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tech.map((tech, techIndex) => (
-                      <motion.div
-                        key={techIndex}
-                        whileHover={{ scale: 1.05 }}
-                        className="px-3 py-1.5 rounded-lg text-sm bg-[#0D1117]/60 border-[#00A3FF]/30 text-[#00A3FF] hover:border-[#00A3FF] border transition-all duration-300"
-                        style={{
-                          boxShadow: `0 0 10px ${tech.color}20`,
-                        }}
-                      >
-                        {tech}
-                      </motion.div>
-                    ))}
-                  </div>
-
-                  <div className="flex gap-3">
-                    <a size="sm" href={project.link} target="_blank" className="flex-1 bg-linear-to-r from-[#00A3FF] to-[#A855F7] hover:opacity-90 p-1 rounded-lg transition-all duration-300  text-center" > <FontAwesomeIcon className="mr-2 h-4 w-4" icon={faExternalLink} /> Live Demo</a  >
-                    <a href={project.repo} target='_blank'><FontAwesomeIcon size='xl' className='mt-1' icon={faGithub} /></a>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-        <div className="text-center mt-12">
-          <button
-            onClick={() => setShowMore(!showMore)}
-            className="bg-linear-to-r from-[#00A3FF] to-[#A855F7] px-6 py-2 rounded-lg text-white hover:opacity-90 transition-all duration-300"
+          <span
+            className="font-display text-2xl font-semibold tracking-tight text-white/85 text-center px-4"
+            style={{ textShadow: `0 0 32px ${meta.color}55` }}
           >
-            {showMore ? 'Show Less' : 'Show More'}
-          </button>
+            {project.name}
+          </span>
+          <span
+            aria-hidden
+            className="pointer-events-none absolute -right-3 -top-4 select-none text-[6.5rem] leading-none opacity-[0.07]"
+            style={{ color: meta.color }}
+          >
+            {meta.glyph}
+          </span>
+        </div>
+
+        {/* Category chip */}
+        <span
+          className="absolute bottom-2.5 left-2.5 rounded-md px-2 py-0.5 font-mono text-[10px] font-medium text-white/90 backdrop-blur-sm ring-1 ring-white/10"
+          style={{ background: `${meta.color}33` }}
+        >
+          {project.category}
+        </span>
+      </div>
+
+      {/* Content panel matching portfolio_v1 */}
+      <div className="flex flex-1 flex-col p-4">
+        <div className="flex items-baseline justify-between gap-3">
+          <h3 className="font-display text-[16px] font-semibold tracking-tight text-portfolio-text">
+            {project.name}
+          </h3>
+          <span className="shrink-0 font-mono text-[11px] text-portfolio-muted">{project.date}</span>
+        </div>
+
+        <p className="mt-1.5 flex-1 text-[13px] leading-relaxed text-portfolio-muted">
+          {project.tagline}
+        </p>
+
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {project.tech?.slice(0, maxTech).map((k) => (
+            <TechTag key={k} k={k} />
+          ))}
+          {extra > 0 && (
+            <span className="inline-flex items-center rounded-md border border-portfolio-border bg-portfolio-border/40 px-2 py-1 text-[11px] font-medium text-portfolio-muted">
+              +{extra}
+            </span>
+          )}
+        </div>
+
+        <div className="mt-4 flex items-center gap-2">
+          {project.repo && (
+            <PillLink href={project.repo}>
+              <GitHubIcon className="h-3.5 w-3.5" /> Source
+            </PillLink>
+          )}
+          {project.live && (
+            <PillLink href={project.live} primary={!project.repo}>
+              <ArrowIcon className="h-3.5 w-3.5" /> Live
+            </PillLink>
+          )}
         </div>
       </div>
-    </section>
+    </article>
+  );
+}
+
+export function Projects() {
+  const [lane, setLane] = useState("all");
+  const [allProjects, setAllProjects] = useState(RESUME_PROJECTS);
+  const [showAllRepos, setShowAllRepos] = useState(false);
+
+  const username = "Gaurav-meena95";
+
+  const fetchGithubRepos = useCallback(async () => {
+    try {
+      const res = await fetch(`https://api.github.com/users/${username}/repos?per_page=40&sort=updated`);
+      if (!res.ok) return;
+      const data = await res.json();
+      const filtered = data.filter((r) => !r.fork && !r.archived && !r.disabled);
+
+      const resumeKeys = new Set(["coderelay", "form-filling-agent", "jeweltrack"]);
+
+      const mapped = filtered
+        .filter((r) => !resumeKeys.has(r.name.toLowerCase()))
+        .map((r) => ({
+          slug: r.name,
+          name: r.name.replace(/[-_]/g, " "),
+          tagline: r.description || "Open-source engineering repository.",
+          category: r.language === "Python" ? "AI / Agents" : "Dev Tools",
+          lane: r.language === "Python" ? "ai" : "tools",
+          tech: r.language ? [r.language.toLowerCase()] : ["git"],
+          date: new Date(r.updated_at).toLocaleDateString("en-US", { month: "short", year: "numeric" }),
+          repo: r.html_url,
+          live: r.homepage && r.homepage.trim() ? r.homepage : r.html_url,
+          featured: false,
+        }));
+
+      setAllProjects([...RESUME_PROJECTS, ...mapped]);
+    } catch {
+      // safe fallback to resume projects
+    }
+  }, [username]);
+
+  useEffect(() => {
+    fetchGithubRepos();
+  }, [fetchGithubRepos]);
+
+  const shown = useMemo(() => {
+    let list = lane === "all" ? allProjects : allProjects.filter((p) => p.lane === lane);
+    if (!showAllRepos) {
+      list = list.slice(0, 4);
+    }
+    return list;
+  }, [lane, allProjects, showAllRepos]);
+
+  return (
+    <Section id="projects">
+      <SectionHeading
+        title="featured work"
+        action={
+          <button
+            onClick={() => setShowAllRepos(!showAllRepos)}
+            className="inline-flex items-center gap-1 text-[13px] text-portfolio-muted transition-colors hover:text-portfolio-text cursor-pointer"
+          >
+            {showAllRepos ? "show featured" : `all ${allProjects.length} projects`} <ArrowIcon className="h-3.5 w-3.5" />
+          </button>
+        }
+      />
+
+      <div className="mb-4 flex flex-wrap gap-1.5">
+        {LANES.map((l) => (
+          <button
+            key={l.id}
+            onClick={() => setLane(l.id)}
+            className={`rounded-md px-2.5 py-1 text-[12px] font-medium transition-colors cursor-pointer ${
+              lane === l.id
+                ? "bg-portfolio-text text-portfolio-bg"
+                : "border border-portfolio-border text-portfolio-muted hover:border-white/25 hover:text-portfolio-text"
+            }`}
+          >
+            {l.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        {shown.map((p, i) => (
+          <Reveal key={p.slug} delay={(i % 2) * 0.06}>
+            <ProjectCard project={p} />
+          </Reveal>
+        ))}
+      </div>
+    </Section>
   );
 }

@@ -1,92 +1,100 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'pokemon-ds';
+  src: url('/fonts/pokemon-ds.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-display: 'Space Grotesk', ui-sans-serif, sans-serif;
+  --font-serif: 'DM Serif Display', Georgia, serif;
+  --font-pixel: 'Press Start 2P', monospace;
+  --font-card: 'pokemon-ds', monospace;
+
+  /* portfolio_v1 exact minimal dark theme tokens */
+  --color-portfolio-bg: #030712;
+  --color-portfolio-card: #0a0f1c;
+  --color-portfolio-text: #f9fafb;
+  --color-portfolio-muted: #9ca3af;
+  --color-portfolio-border: #1f2937;
+  --color-portfolio-accent: #f9fafb;
+
+  --color-brand-blue: #00A3FF;
+  --color-brand-indigo: #6366F1;
+}
+
 :root {
-  margin: 0;
-  padding: 0;
+  color-scheme: dark;
+  --background: #030712;
+  --foreground: #f9fafb;
 }
 
 html {
   scroll-behavior: smooth;
+  font-family: var(--font-sans);
+  background-color: var(--color-portfolio-bg);
+  color: var(--color-portfolio-text);
 }
 
-@import "tailwindcss";
-
-@layer components {
-  h1 {
-    @apply text-4xl font-bold text-white tracking-tight;
-  }
-
-  h2 {
-    @apply text-3xl font-semibold text-gray-200 mt-4;
-  }
-
-  h3 {
-    @apply text-2xl font-semibold text-gray-300 mt-3;
-  }
-
-  h4 {
-    @apply text-xl font-medium text-gray-300 mt-2;
-  }
-
-  h5 {
-    @apply text-lg font-medium text-gray-400 mt-1;
-  }
-
-  h6 {
-    @apply text-base font-medium text-gray-500;
-  }
-
-  .resume {
-    @apply bg-linear-to-r from-[#00A3FF] to-[#A855F7] py-1 px-3 rounded-lg shadow-[0_4px_20px_#00A3FF33] transition-all duration-300 bg-white p-6 rounded-lg shadow-[0_4px_20px_#00A3FF33] hover:shadow-[0_0_25px_#00A3FF88] hover:opacity-95 transition;
-  }
-  .project{
-    @apply border-2 border-[#00A3FF] text-[#00A3FF] hover:bg-[#00A3FF]/10 transition-all duration-300  py-1 px-5 rounded-lg hover:text-white;
-  }
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family: var(--font-sans);
+  background-color: var(--color-portfolio-bg);
+  color: var(--color-portfolio-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Light theme minimal overrides */
-html.light .app-root {
-  color-scheme: light;
+/* Custom sleek scrollbar matching portfolio_v1 */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
 }
 
-/* Common dark surfaces used across cards */
-html.light .app-root .bg-\[\#161B22\]\/60 { background-color: rgba(255,255,255,0.75) !important; }
-html.light .app-root .bg-\[\#0D1117\]\/80 { background-color: rgba(255,255,255,0.85) !important; }
-html.light .app-root .bg-\[\#0D1117\] { background-color: #ffffff !important; }
+::-webkit-scrollbar-track {
+  background: #030712;
+}
 
-/* Borders that were white/10 look too faint on light */
-html.light .app-root .border-white\/10 { border-color: rgba(0,0,0,0.08) !important; }
-html.light .app-root .hover\:border-white\/20:hover { border-color: rgba(0,0,0,0.16) !important; }
+::-webkit-scrollbar-thumb {
+  background: #1f2937;
+  border-radius: 9999px;
+  border: 1px solid #030712;
+}
 
-/* Headings readable in light mode (but do not override gradient clipped headings) */
-html.light .app-root h1:not(.bg-clip-text),
-html.light .app-root h2:not(.bg-clip-text),
-html.light .app-root h3:not(.bg-clip-text),
-html.light .app-root h4:not(.bg-clip-text),
-html.light .app-root h5:not(.bg-clip-text),
-html.light .app-root h6:not(.bg-clip-text) { color: #0f172a !important; }
-/* Ensure gradient text remains transparent to show the background gradient */
-html.light .app-root .bg-clip-text.text-transparent { -webkit-text-fill-color: transparent; color: transparent; }
+::-webkit-scrollbar-thumb:hover {
+  background: #374151;
+}
 
-/* Muted text colors for light mode readability */
-html.light .app-root .text-gray-400 { color: #475569 !important; }
-html.light .app-root .text-gray-500 { color: #64748b !important; }
-html.light .app-root .text-gray-300 { color: #334155 !important; }
+/* 3D transforms */
+.perspective-1000 {
+  perspective: 1000px;
+}
 
-/* Many components use text-white on content; make it dark on light mode by default */
-html.light .app-root :where(p, li, span, h1, h2, h3, h4, h5, h6).text-white { color: #0f172a !important; }
+.perspective-1200 {
+  perspective: 1200px;
+}
 
-/* Removed forcing white text on all bg-linear-to-r so gradient text remains visible */
-/* But preserve white text when placed on gradient/brand backgrounds (buttons, badges) */
-html.light .app-root .bg-linear-to-r .text-white { color: #ffffff !important; }
-html.light .app-root .from-\[\#00A3FF\] .text-white,
-html.light .app-root .to-\[\#A855F7\] .text-white,
-html.light .app-root .bg-\[\#00A3FF\] .text-white,
-html.light .app-root .bg-\[\#A855F7\] .text-white { color: #ffffff !important; }
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
 
-/* Inputs and textareas in Contact should be dark text on light */
-html.light .app-root input,
-html.light .app-root textarea { color: #0f172a !important; }
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
 
-/* Semi-transparent white text (e.g., social labels) -> darker in light */
-html.light .app-root .text-white\/80 { color: rgba(15, 23, 42, 0.8) !important; }
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
 
-/* Keep gradients and glows intact; no override needed */
+/* Subtle glow matching portfolio_v1 */
+.shadow-soft {
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+}
