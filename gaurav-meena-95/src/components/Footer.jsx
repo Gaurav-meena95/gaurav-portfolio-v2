@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Container, ArrowIcon } from './SiteUI';
 
-export function Footer() {
+export function Footer({ onOpenCard }) {
   const [time, setTime] = useState('');
 
   useEffect(() => {
@@ -41,12 +41,23 @@ export function Footer() {
             </p>
           </div>
 
-          <button
-            onClick={scrollToTop}
-            className="inline-flex items-center gap-1 transition-colors hover:text-portfolio-text cursor-pointer self-start sm:self-auto"
-          >
-            back to top <ArrowIcon className="h-3 w-3 -rotate-45" />
-          </button>
+          <div className="flex items-center gap-4 self-start sm:self-auto">
+            {onOpenCard && (
+              <button
+                onClick={onOpenCard}
+                className="inline-flex items-center gap-1 text-portfolio-muted transition-colors hover:text-portfolio-text cursor-pointer"
+                title="Return to the 3D card landing stage"
+              >
+                <span>◂ 3D card stage</span>
+              </button>
+            )}
+            <button
+              onClick={scrollToTop}
+              className="inline-flex items-center gap-1 transition-colors hover:text-portfolio-text cursor-pointer"
+            >
+              back to top <ArrowIcon className="h-3 w-3 -rotate-45" />
+            </button>
+          </div>
         </div>
       </Container>
     </footer>

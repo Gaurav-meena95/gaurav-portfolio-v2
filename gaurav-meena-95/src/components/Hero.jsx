@@ -12,7 +12,7 @@ const fade = {
 const social =
   "flex h-9 w-9 items-center justify-center rounded-md border border-portfolio-border text-portfolio-muted transition-colors hover:border-white/25 hover:text-portfolio-text";
 
-export function Hero() {
+export function Hero({ onOpenCardStage }) {
   const [showCard, setShowCard] = useState(false);
 
   return (
@@ -84,10 +84,10 @@ export function Hero() {
 
               <button
                 type="button"
-                onClick={() => setShowCard(!showCard)}
+                onClick={onOpenCardStage || (() => setShowCard(!showCard))}
                 className="inline-flex items-center gap-1.5 rounded-md border border-portfolio-border px-3.5 py-2 text-[13px] font-mono text-portfolio-muted transition-colors hover:border-white/25 hover:text-portfolio-text cursor-pointer"
               >
-                {showCard ? 'hide 3d card' : 'view 3d card'}
+                <span>3D card stage ✦</span>
               </button>
 
               <a
